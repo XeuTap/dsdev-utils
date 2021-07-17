@@ -71,10 +71,10 @@ class DSFlaskResponse:
         msg = f"Headers: {parsed_data}"
         log.info(msg)
         if data is not None:
-            DSFlaskResponse._log_request_data(data)
+            DSFlaskResponse.log_request_data(data)
 
     @staticmethod
-    def _log_request_data(data):
+    def log_request_data(data):
         if "password" in data.keys():
             temp_password = data["password"]
             data["password"] = "*****"
