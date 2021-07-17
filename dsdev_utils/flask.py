@@ -21,7 +21,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 # ------------------------------------------------------------------------------
+import logging
 import typing as t
+
+try:
+    from flask import Flask, g, request
+except ImportError:
+    Flask = None
+    g = None
+    request = None
+
+log = logging.getLogger(__name__)
 
 
 class DSFlaskResponse:
@@ -32,6 +42,48 @@ class DSFlaskResponse:
     not_found = 404
     ok = 200
     unauthorized = 401
+
+    @staticmethod
+    def log_request(**kwargs):
+        if Flask is None:
+            raise RuntimeError('dsdev-utils[flask] is not installed')
+
+        log.info("Path: %s", request.path)
+        log.info("Method: %s", request.method)
+        log.info("Remote Addr: %s", request.remote_addr)
+        if hasattr(g, "user"):
+            log.info("User ID: %s", g.user.get_id())
+
+        parsed_data = dict()
+
+        for k, v in request.headers.items():
+            if "Authorization" in k:
+                v = "*****"
+            parsed_data[k] = v
+
+        data = None
+        if 'data' in kwargs.keys():
+            data = kwargs['data']
+            del kwargs['data']
+
+        parsed_data.update(kwargs)
+
+        msg = f"Headers: {parsed_data}"
+        log.info(msg)
+        if data is not None:
+            DSFlaskResponse._log_request_data(data)
+
+    @staticmethod
+    def _log_request_data(data):
+        if "password" in data.keys():
+            temp_password = data["password"]
+            data["password"] = "*****"
+            msg = f"Request Data: {data}"
+            data["password"] = temp_password
+        else:
+            msg = f"Request Data: {data}"
+
+        log.info(msg)
 
     @staticmethod
     def resp_data(

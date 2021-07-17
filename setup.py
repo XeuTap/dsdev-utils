@@ -41,6 +41,9 @@ setup(
         'deprecated',
         'packaging',
         ],
+    extras_require={
+      'flask': 'flask',
+    },
     packages=find_packages(),
     classifiers=[
         "Development Status :: 4 - Beta",
