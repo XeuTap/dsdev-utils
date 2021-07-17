@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------
 # The MIT License (MIT)
 #
-# Copyright (c) 2014-2019 Digital Sapphire
+# Copyright (c) 2014-2021 Digital Sapphire
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -27,9 +27,6 @@ import shutil
 import sys
 import time
 
-import six
-
-
 log = logging.getLogger(__name__)
 
 
@@ -48,9 +45,6 @@ def get_mac_dot_app_dir(directory):
 
 
 def remove_any(path):
-    if six.PY2 or sys.version_info[1] == 5:
-        path = str(path)
-
     if not os.path.exists(path):
         return
 
@@ -60,7 +54,7 @@ def remove_any(path):
         else:
             os.remove(path)
 
-    if sys.platform != 'win32':
+    if sys.platform != "win32":
         _remove_any(path)
     else:
         for _ in range(100):
@@ -79,18 +73,14 @@ def remove_any(path):
 
 
 class ChDir(object):
-
     def __init__(self, path):
-        if six.PY2 or sys.version_info[1] in [4, 5]:
-            path = str(path)
-
         self.old_dir = os.getcwd()
         self.new_dir = path
 
     def __enter__(self):
-        log.debug('Changing to Directory --> {}'.format(self.new_dir))
+        log.debug("Changing to Directory --> {}".format(self.new_dir))
         os.chdir(self.new_dir)
 
     def __exit__(self, *args, **kwargs):
-        log.debug('Moving back to Directory --> {}'.format(self.old_dir))
+        log.debug("Moving back to Directory --> {}".format(self.old_dir))
         os.chdir(self.old_dir)

@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------
 # The MIT License (MIT)
 #
-# Copyright (c) 2014-2019 Digital Sapphire
+# Copyright (c) 2014-2021 Digital Sapphire
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -31,9 +31,8 @@ log = logging.getLogger()
 
 
 def test_package_hash():
-    with io.open('hash-test.txt', 'w', encoding='utf-8') as f:
-        f.write('I should find some lorem text' * 123)
+    with io.open("hash-test.txt", "w", encoding="utf-8") as f:
+        f.write("I should find some lorem text" * 123)
 
-    digest = ('cb44ec613a594f3b20e46b768c5ee780e0a9b66ac'
-              '6d5ac1468ca4d3635c4aa9b')
-    assert digest == get_package_hashes('hash-test.txt')
+    digest = "cb44ec613a594f3b20e46b768c5ee780e0a9b66ac" "6d5ac1468ca4d3635c4aa9b"
+    assert digest == get_package_hashes("hash-test.txt")

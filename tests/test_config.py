@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------
 # The MIT License (MIT)
 #
-# Copyright (c) 2014-2019 Digital Sapphire
+# Copyright (c) 2014-2021 Digital Sapphire
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -29,13 +29,9 @@ log = logging.getLogger()
 
 
 def test_config_dict():
-    default = {
-        'APP_NAME': 'test',
-        'COMPANY_NAME': 'acme',
-        'bad_config': 'bad boy'
-        }
+    default = {"APP_NAME": "test", "COMPANY_NAME": "acme", "bad_config": "bad boy"}
     config = ConfigDict(default=default)
 
-    assert config['APP_NAME'] == 'test'
-    assert config['COMPANY_NAME'] == 'acme'
-    assert 'bad_config' not in config.keys()
+    assert config["APP_NAME"] == "test"
+    assert config["COMPANY_NAME"] == "acme"
+    assert "bad_config" not in config.keys()

@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------
 # The MIT License (MIT)
 #
-# Copyright (c) 2014-2019 Digital Sapphire
+# Copyright (c) 2014-2021 Digital Sapphire
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -39,11 +39,11 @@ def get_package_hashes(filename):
 
         (str): sha256 hash
     """
-    log.debug('Getting package hashes')
+    log.debug("Getting package hashes")
     filename = os.path.abspath(filename)
-    with open(filename, 'rb') as f:
+    with open(filename, "rb") as f:
         data = f.read()
 
     _hash = hashlib.sha256(data).hexdigest()
-    log.debug('Hash for file %s: %s', filename, _hash)
+    log.debug("Hash for file %s: %s", filename, _hash)
     return _hash

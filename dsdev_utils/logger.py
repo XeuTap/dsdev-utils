@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------
 # The MIT License (MIT)
 #
-# Copyright (c) 2014-2019 Digital Sapphire
+# Copyright (c) 2014-2021 Digital Sapphire
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -24,5 +24,6 @@
 import logging
 
 
-logging_formatter = logging.Formatter(u'[%(levelname)s] %(name)s '
-                                      u'%(lineno)d: %(message)s')
+logging_formatter = logging.Formatter(
+    "[%(levelname)s] %(name)s " "%(lineno)d: %(message)s"
+)

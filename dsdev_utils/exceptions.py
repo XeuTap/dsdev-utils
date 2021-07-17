@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------
 # The MIT License (MIT)
 #
-# Copyright (c) 2014-2019 Digital Sapphire
+# Copyright (c) 2014-2021 Digital Sapphire
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -47,10 +47,13 @@ class STDError(Exception):
 
                 False - Report issue msg shown
     """
+
     def __init__(self, msg, tb=None, expected=False):
         if expected is False:
-            msg = msg + ('; please report this issue on https://github.com'
-                         '/JMSwag/dsdev-utils/issues')
+            msg = msg + (
+                "; please report this issue on https://github.com"
+                "/JMSwag/dsdev-utils/issues"
+            )
         super(STDError, self).__init__(msg)
 
         self.traceback = tb
@@ -59,10 +62,11 @@ class STDError(Exception):
     def format_traceback(self):
         if self.traceback is None:
             return None
-        return ''.join(traceback.format_tb(self.traceback))
+        return "".join(traceback.format_tb(self.traceback))
 
 
 class VersionError(STDError):
     """Raised for Utils exceptions"""
+
     def __init__(self, *args, **kwargs):
         super(VersionError, self).__init__(*args, **kwargs)

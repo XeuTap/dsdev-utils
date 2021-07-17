@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------
 # The MIT License (MIT)
 #
-# Copyright (c) 2014-2019 Digital Sapphire
+# Copyright (c) 2014-2021 Digital Sapphire
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,7 @@
 # THE SOFTWARE.
 # ------------------------------------------------------------------------------
 import logging
+
 try:
     from pathlib2 import Path
 except ImportError:
@@ -36,13 +37,13 @@ log = logging.getLogger()
 
 
 def test_get_mac_app_dir():
-    main = 'Main'
-    path = os.path.join(main, 'Contents', 'MacOS', 'app')
+    main = "Main"
+    path = os.path.join(main, "Contents", "MacOS", "app")
     assert get_mac_dot_app_dir(path) == main
 
 
 def test_chdir(cleandir):
-    new_dir = 'temp'
+    new_dir = "temp"
     og_dir = os.getcwd()
     if not os.path.exists(new_dir):
         os.mkdir(new_dir)
@@ -53,7 +54,7 @@ def test_chdir(cleandir):
 
 
 def test_chdir_pathlib(cleandir):
-    new_dir = Path(os.getcwd(), 'temp')
+    new_dir = Path(os.getcwd(), "temp")
     og_dir = os.getcwd()
     if not os.path.exists(str(new_dir)):
         os.mkdir(str(new_dir))

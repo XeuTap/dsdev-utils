@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------
 # The MIT License (MIT)
 #
-# Copyright (c) 2014-2019 Digital Sapphire
+# Copyright (c) 2014-2021 Digital Sapphire
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,6 @@
 # THE SOFTWARE.
 # ------------------------------------------------------------------------------
 import logging
-import six
 
 from dsdev_utils.compat import make_compat_str
 
@@ -31,6 +30,6 @@ log = logging.getLogger()
 
 def test_make_compat_str():
     byte_str = b"Give me some bytes"
-    assert isinstance(make_compat_str(byte_str), six.string_types)
-    assert isinstance(make_compat_str('Another string'), six.string_types)
-    assert isinstance(make_compat_str(u'unicode string'), six.string_types)
+    assert isinstance(make_compat_str(byte_str), str)
+    assert isinstance(make_compat_str("Another string"), str)
+    assert isinstance(make_compat_str(u"unicode string"), str)

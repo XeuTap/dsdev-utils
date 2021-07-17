@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------
 # The MIT License (MIT)
 #
-# Copyright (c) 2014-2019 Digital Sapphire
+# Copyright (c) 2014-2021 Digital Sapphire
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -36,10 +36,10 @@ def get_architecure():
     global _ARCHITECTURE
     if _ARCHITECTURE is not None:
         return _ARCHITECTURE
-    if '64bit' in platform.architecture()[0]:
-        _ARCHITECTURE = '64'
+    if "64bit" in platform.architecture()[0]:
+        _ARCHITECTURE = "64"
     else:
-        _ARCHITECTURE = '32'
+        _ARCHITECTURE = "32"
     return _ARCHITECTURE
 
 
@@ -47,21 +47,21 @@ def get_system():
     global _PLATFORM
     if _PLATFORM is not None:
         return _PLATFORM
-    if sys.platform == 'win32':
-        _PLATFORM = 'win'
-    elif sys.platform == 'darwin':
-        if platform.machine().startswith('arm'):
-            _PLATFORM = 'mac-arm'
+    if sys.platform == "win32":
+        _PLATFORM = "win"
+    elif sys.platform == "darwin":
+        if platform.machine().startswith("arm"):
+            _PLATFORM = "mac-arm"
         else:
-            _PLATFORM = 'mac'
+            _PLATFORM = "mac"
     else:
         arch = get_architecure()
-        if 'arm' in platform.uname()[4]:
-            _PLATFORM = 'arm'
-            if arch == '64':
+        if "arm" in platform.uname()[4]:
+            _PLATFORM = "arm"
+            if arch == "64":
                 _PLATFORM += arch
         else:
-            _PLATFORM = 'nix'
-            if arch == '64':
+            _PLATFORM = "nix"
+            if arch == "64":
                 _PLATFORM += arch
     return _PLATFORM

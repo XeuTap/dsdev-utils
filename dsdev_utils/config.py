@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------
 # The MIT License (MIT)
 #
-# Copyright (c) 2014-2019 Digital Sapphire
+# Copyright (c) 2014-2021 Digital Sapphire
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@ class ConfigDict(dict):
     def __init__(self, *args, **kwargs):
         super(ConfigDict, self).__init__(*args, **kwargs)
         self.__dict__ = self
-        default = kwargs.get('default', {})
+        default = kwargs.get("default", {})
         assert isinstance(default, dict)
         self.update(default)
 

@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------
 # The MIT License (MIT)
 #
-# Copyright (c) 2014-2019 Digital Sapphire
+# Copyright (c) 2014-2021 Digital Sapphire
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -44,17 +44,14 @@ log = logging.getLogger(__name__)
 #
 #       (data): Decompressed data
 def gzip_decompress(data):
-    # if isinstance(data, six.binary_type):
-    #     data = data.decode()
-    compressed_file = io.BytesIO()
-    compressed_file.write(data)
+    compressed_file = io.BytesIO(data)
     #
     # Set the file's current position to the beginning
     # of the file so that gzip.GzipFile can read
     # its contents from the top.
     #
     compressed_file.seek(0)
-    decompressed_file = gzip.GzipFile(fileobj=compressed_file, mode='rb')
+    decompressed_file = gzip.GzipFile(fileobj=compressed_file, mode="rb")
     data = decompressed_file.read()
     compressed_file.close()
     decompressed_file.close()
@@ -124,7 +121,7 @@ class _LazyImport(object):
         return bool(self._dsdev_lazy_target)
 
     def __str__(self):  # pragma: no cover
-        return '_LazyImport: {}'.format(self._dsdev_lazy_name)
+        return "_LazyImport: {}".format(self._dsdev_lazy_name)
 
 
 # Normalizes version strings of different types. Examples
@@ -135,13 +132,17 @@ class _LazyImport(object):
 #     version (str): Version number to normalizes
 class Version(object):
 
-    v_re = re.compile(r'(?P<major>\d+)\.(?P<minor>\d+)\.?(?P'
-                      r'<patch>\d+)?-?(?P<release>[abehl'
-                      r'pt]+)?-?(?P<releaseversion>\d+)?')
+    v_re = re.compile(
+        r"(?P<major>\d+)\.(?P<minor>\d+)\.?(?P"
+        r"<patch>\d+)?-?(?P<release>[abehl"
+        r"pt]+)?-?(?P<releaseversion>\d+)?"
+    )
 
-    v_re_big = re.compile(r'(?P<major>\d+)\.(?P<minor>\d+)\.'
-                          r'(?P<patch>\d+)\.(?P<release>\d+)'
-                          r'\.(?P<releaseversion>\d+)')
+    v_re_big = re.compile(
+        r"(?P<major>\d+)\.(?P<minor>\d+)\."
+        r"(?P<patch>\d+)\.(?P<release>\d+)"
+        r"\.(?P<releaseversion>\d+)"
+    )
 
     def __init__(self, version):
         self.original_version = version
@@ -157,39 +158,43 @@ class Version(object):
             else:
                 version_data = self._parse_version(version)
         except AssertionError:
-            raise VersionError('Cannot parse version')
+            raise VersionError("Cannot parse version")
 
-        self.major = int(version_data.get('major', 0))
-        self.minor = int(version_data.get('minor', 0))
-        patch = version_data.get('patch')
+        self.major = int(version_data.get("major", 0))
+        self.minor = int(version_data.get("minor", 0))
+        patch = version_data.get("patch")
         if patch is None:
             self.patch = 0
         else:
             self.patch = int(patch)
-        release = version_data.get('release')
-        self.channel = 'stable'
+        release = version_data.get("release")
+        self.channel = "stable"
         if release is None:
             self.release = 2
         # Convert to number for easy comparison and sorting
-        elif release in ['b', 'beta', '1']:
+        elif release in ["b", "beta", "1"]:
             self.release = 1
-            self.channel = 'beta'
-        elif release in ['a', 'alpha', '0']:
+            self.channel = "beta"
+        elif release in ["a", "alpha", "0"]:
             self.release = 0
-            self.channel = 'alpha'
+            self.channel = "alpha"
         else:
-            log.debug('Setting release as stable. '
-                      'Disregard if not prerelease')
+            log.debug("Setting release as stable. " "Disregard if not prerelease")
             # Marking release as stable
             self.release = 2
 
-        release_version = version_data.get('releaseversion')
+        release_version = version_data.get("releaseversion")
         if release_version is None:
             self.release_version = 0
         else:
             self.release_version = int(release_version)
-        self.version_tuple = (self.major, self.minor, self.patch,
-                              self.release, self.release_version)
+        self.version_tuple = (
+            self.major,
+            self.minor,
+            self.patch,
+            self.release,
+            self.release_version,
+        )
         self.version_str = str(self.version_tuple)
 
     def _parse_version(self, version):
@@ -204,36 +209,36 @@ class Version(object):
 
     @staticmethod
     def _quick_sanitize(version):
-        log.debug('Version str: %s', version)
+        log.debug("Version str: %s", version)
         ext = os.path.splitext(version)[1]
         # Removing file extensions, to ensure count isn't
         # contaminated
-        if ext == '.zip':
+        if ext == ".zip":
             log.debug('Removed ".zip"')
             version = version[:-4]
-        elif ext == '.gz':
+        elif ext == ".gz":
             log.debug('Removed ".tar.gz"')
             version = version[:-7]
-        elif ext == '.bz2':
+        elif ext == ".bz2":
             log.debug('Removed ".tar.bz2"')
             version = version[:-8]
-        count = version.count('.')
+        count = version.count(".")
         # There will be 4 dots when version is passed
         # That was created with Version object.
         # 1.1 once parsed will be 1.1.0.0.0
         if count not in [1, 2, 4]:
-            msg = ('Incorrect version format. 1 or 2 dots '
-                   'You have {} dots'.format(count))
+            msg = "Incorrect version format. 1 or 2 dots " "You have {} dots".format(
+                count
+            )
             log.debug(msg)
             raise VersionError(msg)
         return count
 
     def __str__(self):
-        return '.'.join(map(str, self.version_tuple))
+        return ".".join(map(str, self.version_tuple))
 
     def __repr__(self):
-        return '{}: {}'.format(self.__class__.__name__,
-                               self.version_str)
+        return "{}: {}".format(self.__class__.__name__, self.version_str)
 
     def __hash__(self):
         return hash(self.version_tuple)
@@ -268,8 +273,7 @@ class Version(object):
 #
 #     sep (str): Used as a delimiter between keys
 class EasyAccessDict(object):
-
-    def __init__(self, dict_=None, sep='*'):
+    def __init__(self, dict_=None, sep="*"):
         self.sep = sep
         if not isinstance(dict_, dict):
             self.dict = {}
