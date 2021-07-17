@@ -37,8 +37,10 @@ setup(
     license="MIT",
     cmdclass=versioneer.get_cmdclass(),
     install_requires=[
-        "chardet",
-    ],
+        'chardet',
+        'deprecated',
+        'packaging',
+        ],
     packages=find_packages(),
     classifiers=[
         "Development Status :: 4 - Beta",
