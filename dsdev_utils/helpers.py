@@ -28,6 +28,8 @@ import re
 import sys
 from packaging.version import parse
 from deprecated import deprecated
+from pathlib import Path
+from enum import IntEnum
 
 from dsdev_utils.exceptions import VersionError
 
@@ -131,6 +133,10 @@ class _LazyImport(object):
 # Args:
 #
 #     version (str): Version number to normalizes
+class VersionFormat(IntEnum):
+    FULL = 0
+    SHORT = 1
+
 class Version(object):
 
     _v_re = re.compile(r'(?P<major>\d+)\.(?P<minor>\d+)\.?(?P'
@@ -141,12 +147,19 @@ class Version(object):
                           r'(?P<patch>\d+)\.(?P<release>\d+)'
                           r'\.(?P<releaseversion>\d+)')
 
-    def __init__(self, version):
+    def __init__(self, version, format=VersionFormat.SHORT):
         self.original_version = version
         self.version_str = None
+        self.version_format = format
         self._parse_version_str(version)
 
-    def _parse_version_str(self, version):
+    def _parse_version_str(self, filepath):
+        _version = Path(filepath)
+        if _version.suffix == ".zip" or _version.suffix == ".rar":
+            version_without_ext = _version.stem
+        else:
+            version_without_ext = _version.name
+        version = version_without_ext.split("-")[-1]
         version_data = parse(version)
         self.major = version_data.major
         self.minor = version_data.minor
@@ -174,6 +187,20 @@ class Version(object):
             log.debug("Setting release as stable. " "Disregard if not prerelease")
             # Marking release as stable
             self.release = 2
+        if self.version_format == VersionFormat.FULL:
+            raw_original_version = self.original_version.split(".")
+            self.release_version = int(raw_original_version[-1])
+            self.release = int(raw_original_version[-2])
+            match self.release:
+                case 0:
+                    self.channel = "alpha"
+                case 1:
+                    self.channel = "beta"
+                case 2:
+                    self.channel = "stable"
+                case 3:
+                    self.channel = "dev"
+
         self.version_tuple = (self.major, self.minor, self.patch,
                               self.release, self.release_version)
         self.version_str = str(self.version_tuple)
