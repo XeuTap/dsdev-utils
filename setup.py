@@ -23,19 +23,16 @@
 # ------------------------------------------------------------------------------
 from setuptools import find_packages, setup
 
-import versioneer
-
 
 setup(
     name="dsdev-utils",
-    version=versioneer.get_version(),
     description="Various utility functions",
     author="Digital Sapphire",
     author_email="digitalsapphire@gmail.com",
     url="https://github.com/JMSwag/dsdev-utils",
     download_url=("https://github.com/JMSwag/dsdev" "-utils/archive/master.zip"),
     license="MIT",
-    cmdclass=versioneer.get_cmdclass(),
+    version='v1.2.1',
     install_requires=[
         'chardet',
         'deprecated',
