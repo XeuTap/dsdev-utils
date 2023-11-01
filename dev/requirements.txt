@@ -5,7 +5,6 @@ pytest
 pytest-cov
 pytest-httpbin
 pytest-xdist
-versioneer
 tox
 tox-pyenv
 twine

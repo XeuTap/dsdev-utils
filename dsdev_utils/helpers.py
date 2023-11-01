@@ -31,6 +31,7 @@ from deprecated import deprecated
 from pathlib import Path
 from enum import IntEnum
 from dsdev_utils.exceptions import VersionError
+from typing import Union
 
 log = logging.getLogger(__name__)
 
@@ -154,10 +155,9 @@ class Version(object):
 
     def _parse_version_str(self, filepath):
         _version = Path(filepath)
-        if _version.suffix == ".zip" or _version.suffix == ".rar":
-            version_without_ext = _version.stem
-        else:
-            version_without_ext = _version.name
+        while _version.suffix in [".zip", ".rar", ".tar", ".gz"]:
+            _version = Path(_version.stem)
+        version_without_ext = _version.name
         version = version_without_ext.split("-")[-1]
         version_data = parse(version)
         self.major = version_data.major
@@ -223,23 +223,41 @@ class Version(object):
     def __hash__(self):
         return hash(self.version_tuple)
 
-    def __eq__(self, obj):
-        return self.version_tuple == obj.version_tuple
+    def __eq__(self, obj: Union[object, str]):
+        if type(obj) == str:
+            return str(self) == obj
+        else:
+            return self.version_tuple == obj.version_tuple # noqa
 
-    def __ne__(self, obj):
-        return self.version_tuple != obj.version_tuple
+    def __ne__(self, obj: Union[object, str]):
+        if type(obj) == str:
+            return str(self) != obj
+        else:
+            return self.version_tuple != obj.version_tuple # noqa
 
-    def __lt__(self, obj):
-        return self.version_tuple < obj.version_tuple
+    def __lt__(self, obj: Union[object, str]):
+        if type(obj) == str:
+            return str(self) < obj
+        else:
+            return self.version_tuple < obj.version_tuple # noqa
 
-    def __gt__(self, obj):
-        return self.version_tuple > obj.version_tuple
+    def __gt__(self, obj: Union[object, str]):
+        if type(obj) == str:
+            return str(self) > obj
+        else:
+            return self.version_tuple > obj.version_tuple # noqa
 
-    def __le__(self, obj):
-        return self.version_tuple <= obj.version_tuple
+    def __le__(self, obj: Union[object, str]):
+        if type(obj) == str:
+            return str(self) <= obj
+        else:
+            return self.version_tuple <= obj.version_tuple # noqa
 
-    def __ge__(self, obj):
-        return self.version_tuple >= obj.version_tuple
+    def __ge__(self, obj: Union[object, str]):
+        if type(obj) == str:
+            return str(self) >= obj
+        else:
+            return self.version_tuple >= obj.version_tuple # noqa
 
 
 # Provides access to dict by pass a specially made key to

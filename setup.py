@@ -26,13 +26,14 @@ from setuptools import find_packages, setup
 
 setup(
     name="dsdev-utils",
+    keywords="dsdev-utils",
     description="Various utility functions",
     author="Digital Sapphire",
     author_email="digitalsapphire@gmail.com",
     url="https://github.com/JMSwag/dsdev-utils",
     download_url=("https://github.com/JMSwag/dsdev" "-utils/archive/master.zip"),
     license="MIT",
-    version='v1.2.1',
+    version='v1.2.4',
     install_requires=[
         'chardet',
         'deprecated',
@@ -42,6 +43,7 @@ setup(
       'flask': 'flask',
     },
     packages=find_packages(),
+    include_package_data=True,
     classifiers=[
         "Development Status :: 4 - Beta",
         "Operating System :: OS Independent",

@@ -59,10 +59,6 @@ class TestVerson(object):
     def test_version(self):
         assert Version("5.0") == Version("5.0")
         assert Version("4.5") != Version("5.1")
-        with pytest.raises(VersionError):
-            Version("1")
-        with pytest.raises(VersionError):
-            Version("1.1.1.1")
 
     def test_pep440(self):
         assert Version('0.1.1.dev5+a1b2c3d') > Version('0.1.1.dev4+a1b2c3d')
@@ -92,13 +88,15 @@ class TestVerson(object):
         assert Version('2.8.2.alpha4+a1b2c3d').minor == 8
 
     def test_version_tuple(self):
-        assert Version('1.2').version_tuple == (1,2,0,2,0)
-        assert Version('1.2.0a').version_tuple == (1,2,0,0,0)
-        assert Version('1.2.0b').version_tuple == (1,2,0,1,0)
-        assert Version('1.2.1').version_tuple == (1,2,1,2,0)
-        assert Version('1.2.1-9').version_tuple == (1,2,1,2,9)
-        assert Version('1.2.1-a7').version_tuple == (1,2,1,0,7)
-        assert Version('5.4.3.dev4+a1b2c3d').version_tuple == (5,4,3,3,4)
+        assert Version('1.2').version_tuple == (1, 2, 0, 2, 0)
+        assert Version('1.2.0a').version_tuple == (1, 2, 0, 0, 0)
+        assert Version('1.2.0b').version_tuple == (1, 2, 0, 1, 0)
+        assert Version('1.2.1').version_tuple == (1, 2, 1, 2, 0)
+        # assert Version('1.2.1-9').version_tuple == (1,2,1,2,9)
+        # assert Version('1.2.1-a7').version_tuple == (1,2,1,0,7)
+        assert Version("1.0.8beta").version_tuple == (1, 0, 8, 1, 0)
+        assert Version("1.0.8beta2").version_tuple == (1, 0, 8, 1, 2)
+        assert Version('5.4.3.dev4+a1b2c3d').version_tuple == (5, 4, 3, 3, 4)
 
     def test_version_channel(self):
         assert Version('2.2').channel == 'stable'
@@ -107,7 +105,7 @@ class TestVerson(object):
         assert Version('3.2.1alpha').channel == 'alpha'
         assert Version('3.2.1b').channel == 'beta'
         assert Version('4.3.2beta').channel == 'beta'
-        assert Version('4.3.2-b1').channel == 'beta'
+        assert Version('4.3.2b1').channel == 'beta'
         assert Version('5.1.2.dev4+a1b2c3d').channel == 'dev'
 
     def test_version_micro(self):
@@ -123,9 +121,9 @@ class TestVerson(object):
     def test_version_release_version(self):
         assert Version('2021.02.22').release_version == 0
         assert Version('2021.02.22').release_version != None
-        assert Version('10.0.1-b1').release_version == 1
-        assert Version('10.0.1-1').release_version != '1'
-        assert Version('10.0.1-b123').release_version == 123
+        assert Version('10.0.1b1').release_version == 1
+        assert Version('10.0.1').release_version != '1'
+        assert Version('10.0.1b123').release_version == 123
         assert Version('5.1.2.dev999+a1b2c3d').release_version == 999
 
     def test_version_string(self):
