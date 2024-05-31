@@ -190,15 +190,14 @@ class Version(object):
             raw_original_version = self.original_version.split(".")
             self.release_version = int(raw_original_version[-1])
             self.release = int(raw_original_version[-2])
-            match self.release:
-                case 0:
-                    self.channel = "alpha"
-                case 1:
-                    self.channel = "beta"
-                case 2:
-                    self.channel = "stable"
-                case 3:
-                    self.channel = "dev"
+            if self.release == 0:
+                self.channel = "alpha"
+            elif self.release == 1:
+                self.channel = "beta"
+            elif self.release == 2:
+                self.channel = "stable"
+            elif self.release == 3:
+                self.channel = "dev"
 
         self.version_tuple = (self.major, self.minor, self.patch,
                               self.release, self.release_version)

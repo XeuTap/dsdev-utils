@@ -33,7 +33,7 @@ setup(
     url="https://github.com/JMSwag/dsdev-utils",
     download_url=("https://github.com/JMSwag/dsdev" "-utils/archive/master.zip"),
     license="MIT",
-    version='v1.2.4',
+    version='v1.2.5',
     install_requires=[
         'chardet',
         'deprecated',
